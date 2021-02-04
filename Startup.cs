@@ -30,7 +30,7 @@ namespace Corso10157
             app.UseStaticFiles();
             app.UseRouting();
             app.UseMvc(routeBuilder => {
-                routeBuilder.MapRoute("default", "{controller=Classe}/{action=Index}/{id?}");
+                routeBuilder.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
