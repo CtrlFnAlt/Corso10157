@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
+using Corso10157.Models.Interfaces;
 using Corso10157.Models.ViewModel;
 
 namespace Corso10157.Models.Services.Application
 {
-    public class CourseService
+    public class CourseService : ICourseService
     {
         public List<CourseViewModel> GetCourses()
         {
@@ -28,7 +29,7 @@ namespace Corso10157.Models.Services.Application
            return listaCorsi;
         }
 
-        internal CourseDetailViewModel GetCourses(int id)
+        public CourseDetailViewModel GetCourse(int id)
         {
             Random rand = new Random();
             CourseDetailViewModel course = new CourseDetailViewModel(){
