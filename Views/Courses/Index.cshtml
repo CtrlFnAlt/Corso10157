@@ -1,0 +1,18 @@
+@model List<CourseViewModel>
+    <h2>Elenco Corsi</h2>
+    @foreach (CourseViewModel course in Model)
+{
+            <div class="row">
+                <div class="col-sm-9">
+                    <h3>@course.NomeCorso</h3>
+                    <div class="author">di @course.Autore</div>
+                    <p>@course.Descrizione</p>
+                </div>
+                <div class="col-sm-3">
+                    <img src="~/Images/@course.Image" alt="Img del corso">
+                    <div class="prezzo">&euro; @course.Prezzo</div>
+                    <a asp-controller="Courses" asp-action="Detail" asp-route-id="@course.Id" class="btn btn-warning">Dettaglio</a>
+                </div>
+            </div>
+                <hr>
+}

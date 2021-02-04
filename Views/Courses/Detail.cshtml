@@ -1,0 +1,44 @@
+@model CourseDetailViewModel
+
+<div class="row">
+    <div class="col-sm-9">
+        <h1>@Model.NomeCorso</h1>
+        <h5>di @Model.Autore</h5>
+        <p>@Model.DescrizioneDettagliata</p>
+
+    </div>
+    <div class="col-sm-3">
+        <img src="/images/@Model.Image" class="img-fluid w-100"alt="Img Corso">
+        <div>@Model.Prezzo</div>
+    </div>
+</div>
+    <div class="row">
+        <div class="col-sm-12">
+            <h4>@Model.Lezioni.Count Lezioni</h4>
+        </div>
+    </div>
+@foreach (var item in @Model.Lezioni)
+{
+        <div class="row">
+            <div class="col-sm-9">
+                @item.Titolo
+            </div>
+            <div class="colsm-3">
+                @item.Durata
+            </div>
+        </div>
+        <hr>
+}
+<div class="row">
+    <div class="col-sm-9">
+        <i>Totale</i>
+    </div>
+    <div class="col-sm-3">
+        @Model.Totale
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12 text-center">
+<a class="btn btn-secondary" asp-controller="Courses" asp-action="Index">Torna ai corsi</a>
+    </div>
+</div>
