@@ -13,7 +13,7 @@ namespace Corso10157.Models.Services.Application
             Random rand = new Random();
             for (int i = 1; i <= 20; i++)
             {
-                decimal prezzo = Convert.ToDecimal(rand.NextDouble() * 10 + 10);    
+                decimal prezzo = Convert.ToDecimal(rand.NextDouble() * 10 + 10);
                 CourseViewModel course = new CourseViewModel()
                 {
                     Id = i,
