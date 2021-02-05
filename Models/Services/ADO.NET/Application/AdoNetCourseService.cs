@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
+using Corso10157.Models.Exception;
 using Corso10157.Models.Options;
 using Corso10157.Models.Services.ADO.NET.Infrastructure;
 using Corso10157.Models.ViewModel;
@@ -36,7 +37,7 @@ namespace Corso10157.Models.Services.ADO.NET.Application
             if(courseTable.Rows.Count != 1)
             {
                 logger.LogWarning($"Corso {id} non trovato!");
-                throw new InvalidOperationException($"Non riesce a ritornare esattamente 1 colonna da Courses {id}");
+                throw new CourseNotFoundException(id);
             }
             var courseRow = courseTable.Rows[0];
             var courseDetailViewModel = CourseDetailViewModel.FromDataRow(courseRow);
