@@ -30,6 +30,9 @@ namespace Corso10157
             services.AddTransient<ICourseServiceAsync, AdoNetCourseService>();
             services.AddTransient<IDatabaseAccessor, SqliteDatabaseAccessor>();
             /*ADONET*/
+            /*CACHE*/
+            services.AddTransient<ICachedCourseService, MemoryCacheCourseService>();
+            /*CACHE*/
             /*STRINGA DI CONNESSIONE AL DB*/
             // string connectionStrin = Configuration.GetSection("ConnectionStrings").GetValue<string>("Default");
             // string connectionStrin = Configuration.GetConnectionString("Default");
@@ -38,6 +41,7 @@ namespace Corso10157
             /*PAGINAZIONE ED ORDINE*/
             services.Configure<CoursesOptions>(Configuration.GetSection("Courses"));
             /*PAGINAZIONE ED ORDINE*/
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

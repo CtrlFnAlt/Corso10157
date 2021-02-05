@@ -8,8 +8,8 @@ namespace Corso10157.Controllers
 {
     public class CoursesController : Controller
     {
-        private readonly ICourseServiceAsync courseService;
-        public CoursesController(ICourseServiceAsync courseService)
+        private readonly ICachedCourseService courseService;
+        public CoursesController(ICachedCourseService courseService)
         {
             this.courseService = courseService;
         }
