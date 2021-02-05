@@ -35,6 +35,9 @@ namespace Corso10157
             // string connectionStrin = Configuration.GetConnectionString("Default");
             services.Configure<ConnectionStringsOptions>(Configuration.GetSection("ConnectionStrings"));
             /*STRINGA DI CONNESSIONE AL DB*/
+            /*PAGINAZIONE ED ORDINE*/
+            services.Configure<CoursesOptions>(Configuration.GetSection("Courses"));
+            /*PAGINAZIONE ED ORDINE*/
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,7 +47,10 @@ namespace Corso10157
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            else
+            {
+                app.UseExceptionHandler("/Error");
+            }
             app.UseStaticFiles();
             app.UseRouting();
             app.UseMvc(routeBuilder =>
