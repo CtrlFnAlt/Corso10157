@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Threading.Tasks;
 using Microsoft.Data.Sqlite;
 
 namespace Corso10157.Models.Services.ADO.NET.Infrastructure
 {
     public class SqliteDatabaseAccessor : IDatabaseAccessor
     {
-        public DataSet Query(FormattableString formattableQuery)
+        public async Task<DataSet> QueryAsync(FormattableString formattableQuery)
         {
             var queryArguments = formattableQuery.GetArguments();
             var sqliteParameter = new List<SqliteParameter>();
@@ -17,14 +18,14 @@ namespace Corso10157.Models.Services.ADO.NET.Infrastructure
                 sqliteParameter.Add(parameter);
                 queryArguments[i] = "@" + i;
             }
-            using (var conn = new SqliteConnection("Data Source=Data/Data.db"))
+            using (var conn =  new SqliteConnection("Data Source=Data/Data.db"))
             {
-                conn.Open();
+                await conn.OpenAsync();
                 string query = formattableQuery.ToString();
                 using (var cmd = new SqliteCommand(query, conn))
                 {
                     cmd.Parameters.AddRange(sqliteParameter);
-                    using (var read = cmd.ExecuteReader())
+                    using (var read = await cmd.ExecuteReaderAsync())
                     {
                         var dataSet = new DataSet();
                         dataSet.EnforceConstraints = false;

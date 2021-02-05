@@ -1,13 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Threading.Tasks;
 using Corso10157.Models.Interfaces;
 using Corso10157.Models.Services.ADO.NET.Infrastructure;
+using Corso10157.Models.Services.PlaceHolder.Infrastructure;
 using Corso10157.Models.ViewModel;
 
 namespace Corso10157.Models.Services.ADO.NET.Application
 {
-    public class AdoNetCourseService : ICourseService
+    public class AdoNetCourseService : ICourseServiceAsync
     {
         private readonly IDatabaseAccessor db;
         public AdoNetCourseService(IDatabaseAccessor db)
@@ -15,12 +17,12 @@ namespace Corso10157.Models.Services.ADO.NET.Application
             this.db = db;
         }
 
-        public CourseDetailViewModel GetCourse(int id)
+        public async Task<CourseDetailViewModel> GetCourseAsync(int id)
         {
             FormattableString query =$@"
             SELECT * FROM Courses WHERE Id={id};
             SELECT * FROM Lessons WHERE IdCourse={id}";
-            DataSet dataSet = db.Query(query);
+            DataSet dataSet = await db.QueryAsync(query);
             var courseTable = dataSet.Tables[0];
             if(courseTable.Rows.Count != 1)
             {
@@ -37,10 +39,10 @@ namespace Corso10157.Models.Services.ADO.NET.Application
             return courseDetailViewModel;
         }
 
-        public List<CourseViewModel> GetCourses()
+        public async Task<List<CourseViewModel>> GetCoursesAsync()
         {
             FormattableString query = $"SELECT * FROM Courses";
-            DataSet dataSet = db.Query(query);
+            DataSet dataSet = await db.QueryAsync(query);
             var dataTable = dataSet.Tables[0];
             var courseList = new List<CourseViewModel>();
             foreach(DataRow courseRow in dataTable.Rows)

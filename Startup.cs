@@ -6,6 +6,7 @@ using Corso10157.Models.Interfaces;
 using Corso10157.Models.Services.ADO.NET.Application;
 using Corso10157.Models.Services.ADO.NET.Infrastructure;
 using Corso10157.Models.Services.Application;
+using Corso10157.Models.Services.PlaceHolder.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -22,7 +23,7 @@ namespace Corso10157
         {
             services.AddMvc(option => option.EnableEndpointRouting = false);
             // services.AddTransient<ICourseService, CourseService>();
-            services.AddTransient<ICourseService, AdoNetCourseService>();
+            services.AddTransient<ICourseServiceAsync, AdoNetCourseService>();
             services.AddTransient<IDatabaseAccessor, SqliteDatabaseAccessor>();
         }
 

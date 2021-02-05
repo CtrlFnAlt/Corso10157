@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Corso10157.Models.Interfaces;
+using Corso10157.Models.Services.PlaceHolder.Infrastructure;
 using Corso10157.Models.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,21 +9,21 @@ namespace Corso10157.Controllers
 {
     public class CoursesController : Controller
     {
-        private readonly ICourseService courseService;
-        public CoursesController(ICourseService courseService)
+        private readonly ICourseServiceAsync courseService;
+        public CoursesController(ICourseServiceAsync courseService)
         {
             this.courseService = courseService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             ViewData["Title"] = "I Corsi";
-            List<CourseViewModel> courses = courseService.GetCourses();
+            List<CourseViewModel> courses = await courseService.GetCoursesAsync();
             return View(courses);
         }
-        public IActionResult Detail(int id)
+        public async Task<IActionResult> Detail(int id)
         {
-            CourseDetailViewModel viewModel = courseService.GetCourse(id);
+            CourseDetailViewModel viewModel = await courseService.GetCourseAsync(id);
             ViewData["Title"] = $"Corso - {viewModel.NomeCorso}";
             return View(viewModel);
         }

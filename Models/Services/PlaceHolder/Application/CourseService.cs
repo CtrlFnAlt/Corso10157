@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Corso10157.Models.Interfaces;
 using Corso10157.Models.ViewModel;
 
@@ -7,7 +8,7 @@ namespace Corso10157.Models.Services.Application
 {
     public class CourseService : ICourseService
     {
-        public List<CourseViewModel> GetCourses()
+        public  List<CourseViewModel> GetCourses()
         {
            var listaCorsi = new List<CourseViewModel>();
             Random rand = new Random();
