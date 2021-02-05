@@ -17,7 +17,9 @@ namespace Corso10157.Models.Services.ADO.NET.Application
 
         public CourseDetailViewModel GetCourse(int id)
         {
-            FormattableString query =$@"SELECT * FROM Courses WHERE Id={id}; SELECT Id, Titolo, Durata FROM Lessons WHERE IdCourse={id}";
+            FormattableString query =$@"
+            SELECT * FROM Courses WHERE Id={id};
+            SELECT * FROM Lessons WHERE IdCourse={id}";
             DataSet dataSet = db.Query(query);
             var courseTable = dataSet.Tables[0];
             if(courseTable.Rows.Count != 1)
