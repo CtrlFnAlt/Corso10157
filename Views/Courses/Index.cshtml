@@ -9,7 +9,7 @@
                     <p>@course.Descrizione</p>
                 </div>
                 <div class="col-sm-3">
-                    <img src="~/Images/@course.Image" alt="Img del corso">
+                    <img src="~/Images/@course.Image" alt="Img del corso" heigth="150px" width="150px">
                     <div class="prezzo">&euro; @course.Prezzo</div>
                     <a asp-controller="Courses" asp-action="Detail" asp-route-id="@course.Id" class="btn btn-warning">Dettaglio</a>
                 </div>
