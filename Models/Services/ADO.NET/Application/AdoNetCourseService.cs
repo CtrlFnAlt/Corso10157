@@ -4,7 +4,6 @@ using System.Data;
 using System.Threading.Tasks;
 using Corso10157.Models.Interfaces;
 using Corso10157.Models.Services.ADO.NET.Infrastructure;
-using Corso10157.Models.Services.PlaceHolder.Infrastructure;
 using Corso10157.Models.ViewModel;
 
 namespace Corso10157.Models.Services.ADO.NET.Application

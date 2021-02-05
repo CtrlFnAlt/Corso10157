@@ -2,12 +2,21 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
+using Corso10157.Models.Options;
 using Microsoft.Data.Sqlite;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace Corso10157.Models.Services.ADO.NET.Infrastructure
 {
     public class SqliteDatabaseAccessor : IDatabaseAccessor
     {
+        private readonly IOptionsMonitor<ConnectionStringsOptions> connectionStringsOptions;
+
+        public SqliteDatabaseAccessor(IOptionsMonitor<ConnectionStringsOptions> connectionStringsOptions)
+        {
+            this.connectionStringsOptions = connectionStringsOptions;
+        }
         public async Task<DataSet> QueryAsync(FormattableString formattableQuery)
         {
             var queryArguments = formattableQuery.GetArguments();
@@ -18,7 +27,7 @@ namespace Corso10157.Models.Services.ADO.NET.Infrastructure
                 sqliteParameter.Add(parameter);
                 queryArguments[i] = "@" + i;
             }
-            using (var conn =  new SqliteConnection("Data Source=Data/Data.db"))
+            using (var conn = new SqliteConnection(connectionStringsOptions.CurrentValue.Default))
             {
                 await conn.OpenAsync();
                 string query = formattableQuery.ToString();
