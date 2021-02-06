@@ -21,6 +21,7 @@ namespace Corso10157.Models.Services.ADO.NET.Application
         public Task<CourseDetailViewModel> GetCourseAsync(int id)
         {
             return memoryCache.GetOrCreateAsync($"Course{id}", cacheEntry =>{
+                cacheEntry.SetSize(1);
                 cacheEntry.SetAbsoluteExpiration(TimeSpan.FromSeconds(300));
                 return courseservice.GetCourseAsync(id);
             });
@@ -29,6 +30,7 @@ namespace Corso10157.Models.Services.ADO.NET.Application
         public Task<List<CourseViewModel>> GetCoursesAsync()
         {
             return memoryCache.GetOrCreateAsync("Courses", cacheEntry =>{
+                cacheEntry.SetSize(3);
                 cacheEntry.SetAbsoluteExpiration(TimeSpan.FromSeconds(300));
                 return courseservice.GetCoursesAsync();
             });
