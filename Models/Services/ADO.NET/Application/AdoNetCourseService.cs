@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Threading.Tasks;
 using Corso10157.Models.Exception;
 using Corso10157.Models.Options;
 using Corso10157.Models.Services.ADO.NET.Infrastructure;
 using Corso10157.Models.ViewModel;
+using Corso10157.Models.Services.ADO.NET.Classes.ValueType;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -29,12 +31,12 @@ namespace Corso10157.Models.Services.ADO.NET.Application
             /*Per registrare i Log dell'applicazione*/
             logger.LogInformation($"Course {id} richiesto");
 
-            FormattableString query =$@"
+            FormattableString query = $@"
             SELECT * FROM Courses WHERE Id={id};
             SELECT * FROM Lessons WHERE IdCourse={id}";
             DataSet dataSet = await db.QueryAsync(query);
             var courseTable = dataSet.Tables[0];
-            if(courseTable.Rows.Count != 1)
+            if (courseTable.Rows.Count != 1)
             {
                 logger.LogWarning($"Corso {id} non trovato!");
                 throw new CourseNotFoundException(id);
@@ -50,21 +52,30 @@ namespace Corso10157.Models.Services.ADO.NET.Application
             return courseDetailViewModel;
         }
 
-        public async Task<List<CourseViewModel>> GetCoursesAsync()
+        public async Task<List<CourseViewModel>> GetCoursesAsync(string search, int page, string orderby, bool ascending)
         {
             /*Per registrare i Log dell'applicazione*/
             logger.LogInformation("Recupero catalogo dei corsi");
             /*Per la Paginazione*/
-            long perPage = coursesOptions.CurrentValue.PerPage;
-            string orderBy = coursesOptions.CurrentValue.Orderd.By;
-            bool ascending = coursesOptions.CurrentValue.Orderd.Ascending;
-            string[] allow = coursesOptions.CurrentValue.Orderd.Allow;
 
-            FormattableString query = $"SELECT * FROM Courses;";
+            if(!coursesOptions.CurrentValue.Orderd.Allow.Contains(orderby))
+            {
+                orderby = coursesOptions.CurrentValue.Orderd.By;
+                ascending = coursesOptions.CurrentValue.Orderd.Ascending;
+            }
+            page = Math.Max(1, page); //Prende il valore massimo tra i due passati
+            int limit = (int)coursesOptions.CurrentValue.PerPage;
+            int offset = (page - 1) * limit;
+            string direction = ascending ? "ASC" : "DESC";
+
+            FormattableString query = $@"SELECT * FROM Courses WHERE NomeCorso 
+            LIKE {"%" + search + "%"}
+            ORDER BY {(Sql)orderby} {(Sql)direction}
+            LIMIT {limit} OFFSET {offset}";
             DataSet dataSet = await db.QueryAsync(query);
             var dataTable = dataSet.Tables[0];
             var courseList = new List<CourseViewModel>();
-            foreach(DataRow courseRow in dataTable.Rows)
+            foreach (DataRow courseRow in dataTable.Rows)
             {
                 CourseViewModel course = CourseViewModel.FromDataRow(courseRow);
                 courseList.Add(course);

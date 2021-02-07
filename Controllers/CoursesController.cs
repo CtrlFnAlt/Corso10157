@@ -14,10 +14,10 @@ namespace Corso10157.Controllers
             this.courseService = courseService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string search, int page, string orderby, bool ascending)
         {
             ViewData["Title"] = "I Corsi";
-            List<CourseViewModel> courses = await courseService.GetCoursesAsync();
+            List<CourseViewModel> courses = await courseService.GetCoursesAsync(search, page, orderby, ascending);
             return View(courses);
         }
         public async Task<IActionResult> Detail(int id)

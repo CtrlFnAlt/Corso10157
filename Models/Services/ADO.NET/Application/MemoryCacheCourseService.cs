@@ -27,12 +27,12 @@ namespace Corso10157.Models.Services.ADO.NET.Application
             });
         }
 
-        public Task<List<CourseViewModel>> GetCoursesAsync()
+        public Task<List<CourseViewModel>> GetCoursesAsync(string search, int page, string orderby, bool ascending)
         {
-            return memoryCache.GetOrCreateAsync("Courses", cacheEntry =>{
+            return memoryCache.GetOrCreateAsync($"Courses-{search}-{page}-{orderby}-{ascending}", cacheEntry =>{
                 cacheEntry.SetSize(3);
                 cacheEntry.SetAbsoluteExpiration(TimeSpan.FromSeconds(300));
-                return courseservice.GetCoursesAsync();
+                return courseservice.GetCoursesAsync(search, page, orderby, ascending);
             });
         }
     }

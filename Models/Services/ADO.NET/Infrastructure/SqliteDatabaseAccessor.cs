@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 using Corso10157.Models.Options;
+using Corso10157.Models.Services.ADO.NET.Classes.ValueType;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -24,11 +25,12 @@ namespace Corso10157.Models.Services.ADO.NET.Infrastructure
         {
             /*PER REGISTRARE I LOG*/
             logger.LogInformation(formattableQuery.Format, formattableQuery.GetArguments());
-            
+
             var queryArguments = formattableQuery.GetArguments();
             var sqliteParameter = new List<SqliteParameter>();
             for (int i = 0; i <= queryArguments.Length - 1; i++)
             {
+                if (queryArguments[i] is Sql) { continue; }
                 var parameter = new SqliteParameter(i.ToString(), queryArguments[i]);
                 sqliteParameter.Add(parameter);
                 queryArguments[i] = "@" + i;
