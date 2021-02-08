@@ -10,6 +10,7 @@ using Corso10157.Models.ViewModel;
 using Corso10157.Models.Services.ADO.NET.Classes.ValueType;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Corso10157.Models.Services.ADO.NET.InputModels;
 
 namespace Corso10157.Models.Services.ADO.NET.Application
 {
@@ -81,7 +82,7 @@ namespace Corso10157.Models.Services.ADO.NET.Application
 
         public async Task<List<CourseViewModel>> GetBestRatingCoursesAsync()
         {
-           ListViewModel<CourseViewModel> result = await GetCoursesAsync("", 1, "Rating", false, coursesOptions.CurrentValue.InHome, 0);
+            ListViewModel<CourseViewModel> result = await GetCoursesAsync("", 1, "Rating", false, coursesOptions.CurrentValue.InHome, 0);
             return result.Result;
         }
 
@@ -91,6 +92,17 @@ namespace Corso10157.Models.Services.ADO.NET.Application
             return result.Result;
         }
 
-
+        public async Task<CourseDetailViewModel> CreateCourseAsync(CourseCreateInputModel inputModel)
+        {
+            string nomeCorso = inputModel.NomeCorso;
+            string autore = "Guido Bianchi";
+            var dataSet = await db.QueryAsync($@"INSERT INTO Courses 
+            (NomeCorso,Autore,Image,Descrizione,Prezzo,Rating,DescrizioneDettagliata) 
+            VALUES({nomeCorso},{autore},'default.png','',0,0,'');
+            SELECT last_insert_rowid()");
+            int idCorso = Convert.ToInt32(dataSet.Tables[0].Rows[0][0]);
+            CourseDetailViewModel course = await GetCourseAsync(idCorso);
+            return course;
+        }
     }
 }

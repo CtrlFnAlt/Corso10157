@@ -15,6 +15,7 @@ namespace Corso10157.Controllers
             this.courseService = courseService;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index(CourseListInputModel input)
         {
             ViewData["Title"] = "I Corsi";
@@ -24,11 +25,30 @@ namespace Corso10157.Controllers
             viewModel.Input = input;
             return View(viewModel);
         }
+
+        [HttpGet]
         public async Task<IActionResult> Detail(int id)
         {
             CourseDetailViewModel viewModel = await courseService.GetCourseAsync(id);
             ViewData["Title"] = $"Corso - {viewModel.NomeCorso}";
             return View(viewModel);
         }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            ViewData["Title"] = "Crea Corso";
+            var inputModel = new CourseCreateInputModel();
+            return View(inputModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(CourseCreateInputModel inputModel)
+        {
+            ViewData["Title"] = "Crea Corso";
+            CourseDetailViewModel courese = await courseService.CreateCourseAsync(inputModel);
+            return RedirectToRoute("Courses");
+        }
+
     }
 }

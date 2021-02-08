@@ -7,6 +7,7 @@ namespace Corso10157.Controllers
 {
     public class ErrorController : Controller
     {
+        [HttpGet]
         public IActionResult Index()
         {
             var feature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Corso10157.Models.Services.ADO.NET.InputModels;
 using Corso10157.Models.ViewModel;
 
 namespace Corso10157.Models.Services.ADO.NET.Infrastructure
@@ -10,5 +11,6 @@ namespace Corso10157.Models.Services.ADO.NET.Infrastructure
         Task<CourseDetailViewModel> GetCourseAsync(int id);
         Task<List<CourseViewModel>> GetBestRatingCoursesAsync();
         Task<List<CourseViewModel>> GetMostRecentCoursesAsync();
+        Task<CourseDetailViewModel> CreateCourseAsync(CourseCreateInputModel inputModel);
     }
 }

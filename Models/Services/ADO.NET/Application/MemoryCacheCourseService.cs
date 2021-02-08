@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Corso10157.Models.Services.ADO.NET.Infrastructure;
+using Corso10157.Models.Services.ADO.NET.InputModels;
 using Corso10157.Models.ViewModel;
 using Microsoft.Extensions.Caching.Memory;
 
@@ -61,6 +62,11 @@ namespace Corso10157.Models.Services.ADO.NET.Application
                     cacheEntry.SetAbsoluteExpiration(TimeSpan.FromSeconds(600));
                     return courseservice.GetBestRatingCoursesAsync();
                 });
+        }
+
+        public Task<CourseDetailViewModel> CreateCourseAsync(CourseCreateInputModel inputModel)
+        {
+            return courseservice.CreateCourseAsync(inputModel);
         }
     }
 }

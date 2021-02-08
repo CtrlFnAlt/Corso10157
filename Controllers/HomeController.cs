@@ -8,6 +8,7 @@ namespace Corso10157.Controllers
 {
     public class HomeController : Controller
     {
+        [HttpGet]
         [ResponseCache(CacheProfileName = "Home")]
         public async Task<IActionResult> Index([FromServices] ICachedCourseService courseservice)
         {

@@ -1,31 +1,42 @@
 @model CourseListViewModel
-    <h2>Elenco Corsi</h2>
-  <form class="form-inline my-2 my-lg-0" asp-action="Index" asp-controller="Courses" method="get">
-      <input class="form-control mr-sm-2" type="text" name="search" placeholder="Ricerca..." aria-label="Cerca" value="@Model.Input.Search" />
-        <button class="btn btn-outline-success my-2 my-sm-0"><i class="fas fa-search"></i></button>
-    </form>
-<div class="container">
+    <div class="row">
+        <div class="col-sm-6">
+            <h2>Elenco Corsi
+                <a class="btn btn-outline-primary btn-sm" asp-controller="Courses" asp-action="Create">
+                    <i class="fa fa-plus"></i> Nuovo
+                </a>
+            </h2>
+        </div>
+        <div class="col-sm-6">
+            <form class="form-inline my-2 my-lg-0" asp-action="Index" asp-controller="Courses" method="get">
+                <input class="form-control mr-sm-2" type="text" name="search" placeholder="Ricerca..." aria-label="Cerca" value="@Model.Input.Search" />
+                <button class="btn btn-outline-success my-2 my-sm-0"><i class="fas fa-search"></i></button>
+            </form>
+        </div>
+    </div>
+
+<div class="container mt-5">
     <div class="col-sm-12">
         <nav aria-label="Page navigation text-center">
             <ul class="pagination">
                 <li class="page-item" aria-current="page">
                     <a class="page-link" asp-route-orderby="NomeCorso" asp-route-ascending="@(Model.Input.OrderBy == "NomeCorso" ? !Model.Input.Ascending : true)" asp-route-search="@Model.Input.Search">Ordina per Nome @if (Model.Input.OrderBy == "NomeCorso")
                         {
-                                        <i class="fas fa-caret-@(Model.Input.Ascending ? "up" : "down")"></i>
+                                            <i class="fas fa-caret-@(Model.Input.Ascending ? "up" : "down")"></i>
                         }
                     </a>
                 </li>
                 <li class="page-item">
                     <a class="page-link" asp-route-orderby="Prezzo" asp-route-ascending="@(Model.Input.OrderBy == "Prezzo" ? !Model.Input.Ascending : true)" asp-route-search="@Model.Input.Search">Ordina per Prezzo  @if (Model.Input.OrderBy == "Prezzo")
                         {
-                                        <i class="fas fa-caret-@(Model.Input.Ascending ? "up" : "down")"></i>
+                                            <i class="fas fa-caret-@(Model.Input.Ascending ? "up" : "down")"></i>
                         }
                     </a>
                 </li>
                 <li class="page-item">
                     <a class="page-link" asp-route-orderby="Rating" asp-route-ascending="@(Model.Input.OrderBy == "Rating" ? !Model.Input.Ascending : true)" asp-route-search="@Model.Input.Search">Ordina per Rating  @if (Model.Input.OrderBy == "Rating")
                         {
-                                        <i class="fas fa-caret-@(Model.Input.Ascending ? "up" : "down")"></i>
+                                            <i class="fas fa-caret-@(Model.Input.Ascending ? "up" : "down")"></i>
                         }
                     </a>
                 </li>
@@ -35,24 +46,24 @@
 </div>
 @foreach (CourseViewModel course in Model.Courses.Result)
 {
-    @* <div class="row">
-            <div class="col-sm-7">
-                <h3>@course.NomeCorso</h3>
-                <div class="author">di @course.Autore</div>
-                <p>@course.Descrizione</p>
-                <div class="prezzo">&euro; @course.Prezzo</div>
-            </div>
+        @* <div class="row">
+        <div class="col-sm-7">
+        <h3>@course.NomeCorso</h3>
+        <div class="author">di @course.Autore</div>
+        <p>@course.Descrizione</p>
+        <div class="prezzo">&euro; @course.Prezzo</div>
+        </div>
         <div class="col-sm-2">
-            
-            <rating value="@course.Rating"></rating>
+
+        <rating value="@course.Rating"></rating>
         </div>
         <div class="col-sm-3">
-            <img src="~/Images/@course.Image" alt="Img del corso" class="img-fluid" heigth="250px" width="250px">
-                <a asp-controller="Courses" asp-action="Detail" asp-route-id="@course.Id" class="btn btn-warning">Dettaglio</a>
+        <img src="~/Images/@course.Image" alt="Img del corso" class="img-fluid" heigth="250px" width="250px">
+        <a asp-controller="Courses" asp-action="Detail" asp-route-id="@course.Id" class="btn btn-warning">Dettaglio</a>
         </div>
-    </div>
-<hr> *@
-<partial name ="Courses\_CourseLine" model="@course"></partial>
+        </div>
+        <hr> *@
+    <partial name ="Courses\_CourseLine" model="@course"></partial>
 }
 
 <vc:pagination-bar model="@Model"></vc:pagination-bar>
