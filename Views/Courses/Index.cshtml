@@ -4,7 +4,6 @@
       <input class="form-control mr-sm-2" type="text" name="search" placeholder="Ricerca..." aria-label="Cerca" value="@Model.Input.Search" />
         <button class="btn btn-outline-success my-2 my-sm-0"><i class="fas fa-search"></i></button>
     </form>
-
 <div class="container">
     <div class="col-sm-12">
         <nav aria-label="Page navigation text-center">
@@ -34,7 +33,6 @@
         </nav>
     </div>
 </div>
-
 @foreach (CourseViewModel course in Model.Courses.Result)
 {
     <div class="row">
@@ -59,48 +57,4 @@
 <hr>
 }
 
-@{
-    int totalPages = (int)Math.Ceiling(Model.Courses.TotalCount / (decimal)Model.Input.Limit);
-    int currentPage = Model.Input.Page;
-}
-
-
-<div class="container">
-    <div class="col-sm-12">
-        <nav aria-label="Page navigation text-center">
-            <ul class="pagination f-flex justify-content-center mt-3">
-                @if(currentPage > 1){
-                    <li class="page-item">
-                        <a class="page-link" asp-route-page="@(currentPage -1)" 
-                        asp-route-orderby="@Model.Input.OrderBy"
-                        asp-route-ascending="@Model.Input.Ascending"
-                        asp-route-search="@Model.Input.Search">
-                            <i class="fas fa-angle-left"></i>
-                        </a>
-                    </li>
-                }
-                @for (int p = Math.Max(1, currentPage - 4); p <= Math.Min(totalPages, currentPage + 4); p++)
-                {
-                    <li class="page-item @(p == currentPage ? "active" : "")" aria-current="page">
-                        <a class="page-link" asp-route-page="@p" 
-                        asp-route-orderby="@Model.Input.OrderBy"
-                        asp-route-ascending="@Model.Input.Ascending"
-                        asp-route-search="@Model.Input.Search">
-                        @p @if(p == currentPage ){<span class="sr-only">(current)</span>}</a>
-                    </li>
-                }
-                @if(totalPages > currentPage){
-                    <li class="page-item">
-                        <a class="page-link" asp-route-page="@(currentPage +1)"
-                        asp-route-orderby="@Model.Input.OrderBy"
-                        asp-route-ascending="@Model.Input.Ascending"
-                        asp-route-search="@Model.Input.Search"
-                        >
-                            <i class="fas fa-angle-right"></i>
-                        </a>
-                    </li>
-                }
-            </ul>
-        </nav>
-    </div>
-</div>
+<vc:pagination-bar model="@Model"></vc:pagination-bar>
