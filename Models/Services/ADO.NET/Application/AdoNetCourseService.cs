@@ -52,20 +52,11 @@ namespace Corso10157.Models.Services.ADO.NET.Application
             return courseDetailViewModel;
         }
 
-        public async Task<List<CourseViewModel>> GetCoursesAsync(string search, int page, string orderby, bool ascending)
+        public async Task<List<CourseViewModel>> GetCoursesAsync(string search, int page, string orderby, bool ascending, int limit, int offset)
         {
             /*Per registrare i Log dell'applicazione*/
             logger.LogInformation("Recupero catalogo dei corsi");
             /*Per la Paginazione*/
-
-            if(!coursesOptions.CurrentValue.Orderd.Allow.Contains(orderby))
-            {
-                orderby = coursesOptions.CurrentValue.Orderd.By;
-                ascending = coursesOptions.CurrentValue.Orderd.Ascending;
-            }
-            page = Math.Max(1, page); //Prende il valore massimo tra i due passati
-            int limit = (int)coursesOptions.CurrentValue.PerPage;
-            int offset = (page - 1) * limit;
             string direction = ascending ? "ASC" : "DESC";
 
             FormattableString query = $@"SELECT * FROM Courses WHERE NomeCorso 

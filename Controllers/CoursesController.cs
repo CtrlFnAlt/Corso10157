@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Corso10157.Models.Services.ADO.NET.Infrastructure;
+using Corso10157.Models.Services.ADO.NET.InputModels;
 using Corso10157.Models.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,10 +15,10 @@ namespace Corso10157.Controllers
             this.courseService = courseService;
         }
 
-        public async Task<IActionResult> Index(string search, int page, string orderby, bool ascending)
+        public async Task<IActionResult> Index(CourseListInputModel input)
         {
             ViewData["Title"] = "I Corsi";
-            List<CourseViewModel> courses = await courseService.GetCoursesAsync(search, page, orderby, ascending);
+            List<CourseViewModel> courses = await courseService.GetCoursesAsync(input.Search, input.Page, input.OrderBy, input.Ascending, input.Limit, input.Offset);
             return View(courses);
         }
         public async Task<IActionResult> Detail(int id)
