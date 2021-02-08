@@ -18,7 +18,7 @@ namespace Corso10157.Controllers
         public async Task<IActionResult> Index(CourseListInputModel input)
         {
             ViewData["Title"] = "I Corsi";
-            List<CourseViewModel> courses = await courseService.GetCoursesAsync(input.Search, input.Page, input.OrderBy, input.Ascending, input.Limit, input.Offset);
+            ListViewModel<CourseViewModel> courses = await courseService.GetCoursesAsync(input.Search, input.Page, input.OrderBy, input.Ascending, input.Limit, input.Offset);
             CourseListViewModel viewModel = new CourseListViewModel();
             viewModel.Courses = courses;
             viewModel.Input = input;

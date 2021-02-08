@@ -28,7 +28,7 @@ namespace Corso10157.Models.Services.ADO.NET.Application
             });
         }
 
-        public Task<List<CourseViewModel>> GetCoursesAsync(string search, int page, string orderby, bool ascending, int limit, int offset)
+        public Task<ListViewModel<CourseViewModel>> GetCoursesAsync(string search, int page, string orderby, bool ascending, int limit, int offset)
         {
             bool canCache = page <= 5 && string.IsNullOrEmpty(search);
             if (canCache)

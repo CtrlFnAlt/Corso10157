@@ -52,7 +52,7 @@ namespace Corso10157.Models.Services.ADO.NET.Application
             return courseDetailViewModel;
         }
 
-        public async Task<List<CourseViewModel>> GetCoursesAsync(string search, int page, string orderby, bool ascending, int limit, int offset)
+        public async Task<ListViewModel<CourseViewModel>> GetCoursesAsync(string search, int page, string orderby, bool ascending, int limit, int offset)
         {
             /*Per registrare i Log dell'applicazione*/
             logger.LogInformation("Recupero catalogo dei corsi");
@@ -62,7 +62,9 @@ namespace Corso10157.Models.Services.ADO.NET.Application
             FormattableString query = $@"SELECT * FROM Courses WHERE NomeCorso 
             LIKE {"%" + search + "%"}
             ORDER BY {(Sql)orderby} {(Sql)direction}
-            LIMIT {limit} OFFSET {offset}";
+            LIMIT {limit} OFFSET {offset};
+            SELECT count(*) FROM Courses WHERE NomeCorso 
+            LIKE {"%" + search + "%"}";
             DataSet dataSet = await db.QueryAsync(query);
             var dataTable = dataSet.Tables[0];
             var courseList = new List<CourseViewModel>();
@@ -71,7 +73,10 @@ namespace Corso10157.Models.Services.ADO.NET.Application
                 CourseViewModel course = CourseViewModel.FromDataRow(courseRow);
                 courseList.Add(course);
             }
-            return courseList;
+            ListViewModel<CourseViewModel> courseListViewModel = new ListViewModel<CourseViewModel>();
+            courseListViewModel.Result = courseList;
+            courseListViewModel.TotalCount = (long)dataSet.Tables[1].Rows[0][0];
+            return courseListViewModel;
         }
     }
 }

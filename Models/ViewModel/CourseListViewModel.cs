@@ -5,7 +5,7 @@ namespace Corso10157.Models.ViewModel
 {
     public class CourseListViewModel
     {
-        public List<CourseViewModel> Courses { get; set; }
+        public ListViewModel<CourseViewModel> Courses { get; set; }
         public CourseListInputModel Input { get; set; }
     }
 }
