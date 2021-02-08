@@ -78,5 +78,19 @@ namespace Corso10157.Models.Services.ADO.NET.Application
             courseListViewModel.TotalCount = (long)dataSet.Tables[1].Rows[0][0];
             return courseListViewModel;
         }
+
+        public async Task<List<CourseViewModel>> GetBestRatingCoursesAsync()
+        {
+           ListViewModel<CourseViewModel> result = await GetCoursesAsync("", 1, "Rating", false, coursesOptions.CurrentValue.InHome, 0);
+            return result.Result;
+        }
+
+        public async Task<List<CourseViewModel>> GetMostRecentCoursesAsync()
+        {
+            ListViewModel<CourseViewModel> result = await GetCoursesAsync("", 1, "id", false, coursesOptions.CurrentValue.InHome, 0);
+            return result.Result;
+        }
+
+
     }
 }

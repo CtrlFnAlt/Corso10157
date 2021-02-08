@@ -3,6 +3,7 @@ namespace Corso10157.Models.Options
     public class CoursesOptions
     {
         public long PerPage { get; set; }
+        public int InHome { get; set; }
         public CoursesOrderdOptions Orderd { get; set; }
     }
 

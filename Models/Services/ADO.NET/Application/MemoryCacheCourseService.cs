@@ -42,5 +42,25 @@ namespace Corso10157.Models.Services.ADO.NET.Application
             }
             return courseservice.GetCoursesAsync(search, page, orderby, ascending, limit, offset);
         }
+
+        public Task<List<CourseViewModel>> GetMostRecentCoursesAsync()
+        {
+            return memoryCache.GetOrCreateAsync("MostRecentCourses", cacheEntry =>
+                {
+                    cacheEntry.SetSize(3);
+                    cacheEntry.SetAbsoluteExpiration(TimeSpan.FromSeconds(600));
+                    return courseservice.GetMostRecentCoursesAsync();
+                });
+        }
+
+        public Task<List<CourseViewModel>> GetBestRatingCoursesAsync()
+        {
+            return memoryCache.GetOrCreateAsync("BestRatingCourses", cacheEntry =>
+                {
+                    cacheEntry.SetSize(3);
+                    cacheEntry.SetAbsoluteExpiration(TimeSpan.FromSeconds(600));
+                    return courseservice.GetBestRatingCoursesAsync();
+                });
+        }
     }
 }

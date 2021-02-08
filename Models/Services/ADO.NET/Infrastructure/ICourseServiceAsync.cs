@@ -8,5 +8,7 @@ namespace Corso10157.Models.Services.ADO.NET.Infrastructure
     {
         Task<ListViewModel<CourseViewModel>> GetCoursesAsync(string search, int page, string orderby, bool ascending, int limit, int offset);
         Task<CourseDetailViewModel> GetCourseAsync(int id);
+        Task<List<CourseViewModel>> GetBestRatingCoursesAsync();
+        Task<List<CourseViewModel>> GetMostRecentCoursesAsync();
     }
 }
