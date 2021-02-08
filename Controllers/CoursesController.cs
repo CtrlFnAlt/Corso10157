@@ -19,7 +19,10 @@ namespace Corso10157.Controllers
         {
             ViewData["Title"] = "I Corsi";
             List<CourseViewModel> courses = await courseService.GetCoursesAsync(input.Search, input.Page, input.OrderBy, input.Ascending, input.Limit, input.Offset);
-            return View(courses);
+            CourseListViewModel viewModel = new CourseListViewModel();
+            viewModel.Courses = courses;
+            viewModel.Input = input;
+            return View(viewModel);
         }
         public async Task<IActionResult> Detail(int id)
         {

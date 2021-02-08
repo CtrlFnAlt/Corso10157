@@ -20,7 +20,8 @@ namespace Corso10157.Models.Services.ADO.NET.Application
 
         public Task<CourseDetailViewModel> GetCourseAsync(int id)
         {
-            return memoryCache.GetOrCreateAsync($"Course{id}", cacheEntry =>{
+            return memoryCache.GetOrCreateAsync($"Course{id}", cacheEntry =>
+            {
                 cacheEntry.SetSize(1);
                 cacheEntry.SetAbsoluteExpiration(TimeSpan.FromSeconds(300));
                 return courseservice.GetCourseAsync(id);
@@ -29,11 +30,17 @@ namespace Corso10157.Models.Services.ADO.NET.Application
 
         public Task<List<CourseViewModel>> GetCoursesAsync(string search, int page, string orderby, bool ascending, int limit, int offset)
         {
-            return memoryCache.GetOrCreateAsync($"Courses-{search}-{page}-{orderby}-{ascending}", cacheEntry =>{
-                cacheEntry.SetSize(3);
-                cacheEntry.SetAbsoluteExpiration(TimeSpan.FromSeconds(300));
-                return courseservice.GetCoursesAsync(search, page, orderby, ascending, limit, offset);
-            });
+            bool canCache = page <= 5 && string.IsNullOrEmpty(search);
+            if (canCache)
+            {
+                return memoryCache.GetOrCreateAsync($"Courses-{page}-{orderby}-{ascending}", cacheEntry =>
+                {
+                    cacheEntry.SetSize(3);
+                    cacheEntry.SetAbsoluteExpiration(TimeSpan.FromSeconds(300));
+                    return courseservice.GetCoursesAsync(search, page, orderby, ascending, limit, offset);
+                });
+            }
+            return courseservice.GetCoursesAsync(search, page, orderby, ascending, limit, offset);
         }
     }
 }
