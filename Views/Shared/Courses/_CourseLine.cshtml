@@ -1,0 +1,20 @@
+@model CourseViewModel
+
+<div class="row">
+        <div class="col-sm-7">
+            <h3>@Model.NomeCorso</h3>
+            <div class="author">di @Model.Autore</div>
+            <p>@Model.Descrizione</p>
+            <div class="prezzo">&euro; @Model.Prezzo</div>
+        </div>
+    <div class="col-sm-2">@for (var i = 1; i <= Model.Rating; i++)
+    {
+             <i class="fas fa-star" aria-label="course.Rating"></i>
+    }
+    </div>
+    <div class="col-sm-3">
+        <img src="~/Images/@Model.Image" alt="Img del corso" class="img-fluid" heigth="250px" width="250px">
+            <a asp-controller="Courses" asp-action="Detail" asp-route-id="@Model.Id" class="btn btn-warning">Dettaglio <i class="fas fa-search"></i></a>
+    </div>
+</div>
+<hr>

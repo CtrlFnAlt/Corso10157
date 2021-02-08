@@ -35,7 +35,7 @@
 </div>
 @foreach (CourseViewModel course in Model.Courses.Result)
 {
-    <div class="row">
+    @* <div class="row">
             <div class="col-sm-7">
                 <h3>@course.NomeCorso</h3>
                 <div class="author">di @course.Autore</div>
@@ -43,10 +43,7 @@
                 <div class="prezzo">&euro; @course.Prezzo</div>
             </div>
         <div class="col-sm-2">
-            @* @for (var i = 1; i <= course.Rating; i++)
-            {
-             <i class="fas fa-star" aria-label="course.Rating"></i>
-            } *@
+            
             <rating value="@course.Rating"></rating>
         </div>
         <div class="col-sm-3">
@@ -54,7 +51,8 @@
                 <a asp-controller="Courses" asp-action="Detail" asp-route-id="@course.Id" class="btn btn-warning">Dettaglio</a>
         </div>
     </div>
-<hr>
+<hr> *@
+<partial name ="Courses\_CourseLine" model="@course"></partial>
 }
 
 <vc:pagination-bar model="@Model"></vc:pagination-bar>
