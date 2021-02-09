@@ -11,6 +11,7 @@ using Corso10157.Models.Services.ADO.NET.Classes.ValueType;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Corso10157.Models.Services.ADO.NET.InputModels;
+using Microsoft.Data.Sqlite;
 
 namespace Corso10157.Models.Services.ADO.NET.Application
 {
@@ -96,13 +97,27 @@ namespace Corso10157.Models.Services.ADO.NET.Application
         {
             string nomeCorso = inputModel.NomeCorso;
             string autore = "Guido Bianchi";
-            var dataSet = await db.QueryAsync($@"INSERT INTO Courses 
+            try
+            {
+                var dataSet = await db.QueryAsync($@"INSERT INTO Courses 
             (NomeCorso,Autore,Image,Descrizione,Prezzo,Rating,DescrizioneDettagliata) 
             VALUES({nomeCorso},{autore},'default.png','',0,0,'');
             SELECT last_insert_rowid()");
-            int idCorso = Convert.ToInt32(dataSet.Tables[0].Rows[0][0]);
-            CourseDetailViewModel course = await GetCourseAsync(idCorso);
-            return course;
+                int idCorso = Convert.ToInt32(dataSet.Tables[0].Rows[0][0]);
+                CourseDetailViewModel course = await GetCourseAsync(idCorso);
+                return course;
+            }
+            catch (SqliteException exc) when (exc.SqliteErrorCode == 19)
+            {
+                throw new CourseNomeCorsoUnavalidTableException(nomeCorso, exc);
+            }
+        }
+
+        public async Task<bool> IsAvaibleNomecorsoAsync(string nomeCorso)
+        {
+            DataSet result = await db.QueryAsync($"SELECT COUNT(*) FROM COURSES WHERE NomeCorso LIKE {nomeCorso}");
+            bool nomeCorsoAvaible = Convert.ToInt32(result.Tables[0].Rows[0][0]) == 0;
+            return nomeCorsoAvaible;
         }
     }
 }

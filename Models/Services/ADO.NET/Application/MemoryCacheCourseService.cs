@@ -68,5 +68,10 @@ namespace Corso10157.Models.Services.ADO.NET.Application
         {
             return courseservice.CreateCourseAsync(inputModel);
         }
+
+        public Task<bool> IsAvaibleNomecorsoAsync(string nomeCorso)
+        {
+            return courseservice.IsAvaibleNomecorsoAsync(nomeCorso);
+        }
     }
 }

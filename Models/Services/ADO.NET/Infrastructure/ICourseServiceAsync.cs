@@ -12,5 +12,6 @@ namespace Corso10157.Models.Services.ADO.NET.Infrastructure
         Task<List<CourseViewModel>> GetBestRatingCoursesAsync();
         Task<List<CourseViewModel>> GetMostRecentCoursesAsync();
         Task<CourseDetailViewModel> CreateCourseAsync(CourseCreateInputModel inputModel);
+        Task<bool> IsAvaibleNomecorsoAsync(string nomeCorso);
     }
 }

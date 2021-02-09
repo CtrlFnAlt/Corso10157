@@ -4,6 +4,8 @@ using Corso10157.Models.Services.ADO.NET.Infrastructure;
 using Corso10157.Models.Services.ADO.NET.InputModels;
 using Corso10157.Models.ViewModel;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using Corso10157.Models.Exception;
 
 namespace Corso10157.Controllers
 {
@@ -45,10 +47,26 @@ namespace Corso10157.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CourseCreateInputModel inputModel)
         {
+            if (!ModelState.IsValid)
+            {
+                try
+                {
+                    CourseDetailViewModel courese = await courseService.CreateCourseAsync(inputModel);
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (CourseNomeCorsoUnavalidTableException)
+                {
+                    ModelState.AddModelError(nameof(CourseDetailViewModel.NomeCorso), "Questo corso esiste già!");
+                }
+            }
             ViewData["Title"] = "Crea Corso";
-            CourseDetailViewModel courese = await courseService.CreateCourseAsync(inputModel);
-            return RedirectToRoute("Courses");
+            return View(inputModel);
         }
 
+        public async Task<IActionResult> IsAvaibleNomecorso(string nomeCorso)
+        {
+            bool result = await courseService.IsAvaibleNomecorsoAsync(nomeCorso);
+            return Json(result);
+        }
     }
 }
